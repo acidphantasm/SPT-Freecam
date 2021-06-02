@@ -1,6 +1,6 @@
 # Freecam
 
-An SPT-AKI modules mod that allows you to detach the camera and fly around freely in Escape From Tarkov.
+An SPT-AKI module mod that allows you to detach the camera and fly around freely in Escape From Tarkov.
 
 ### Controls
 
@@ -29,5 +29,5 @@ For now, the keybinds are non-configurable (unless you change it in code and bui
 3. Move the contents of the `project` folder over to the SPT-AKI Modules `project` folder
 4. Add the `Terkoiz.Freecam` project to the SPT-AKI Modules solution
 5. Build modules - `Terkoiz.Freecam.dll` should appear under `Build/EscapeFromTarkov_Data/Managed` in the SPT-AKI Modules directory
-6. Copy the .dll into the `mod/Terkoiz-Freecam` folder and rename to `modules.dll`
+6. Copy the .dll into the `mod/Terkoiz-Freecam` folder and rename to `module.dll`
 7. That's it, you have a working release of this mod! Follow the `How to install` instructions on how to get the mod into your game
