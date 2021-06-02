@@ -5,9 +5,9 @@ An SPT-AKI modules mod that allows you to detach the camera and fly around freel
 ### Controls
 
 For now, the keybinds are non-configurable (unless you change it in code and build from source).
-Keypad Plus - toggle free camera mode
-Keypad Enter - teleport player to camera position
-Keypad Multiply - toggle UI
+- Keypad Plus - toggle free camera mode
+- Keypad Enter - teleport player to camera position
+- Keypad Multiply - toggle UI
 
 ### How to install
 
