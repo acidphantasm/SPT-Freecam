@@ -4,30 +4,31 @@ An SPT-AKI module mod that allows you to detach the camera and fly around freely
 
 ### Controls
 
-For now, the keybinds are non-configurable (unless you change it in code and build from source).
+The default controls are as follows:
 - Keypad Plus - toggle free camera mode
 - Keypad Enter - teleport player to camera position
 - Keypad Multiply - toggle UI
 
+If you need to change them, press F12 in-game and expand the `Freecam #.#.#` section and configure your keybinds there.
+Alternatively, you can find the `com.terkoiz.freecam.cfg` file in your `BepInEx/config/` folder after you've started up the game at least once with Freecam installed, and change the keybinds there.
+
+
 ### How to install
 
 1. Download the latest release here: [link](https://dev.sp-tarkov.com/Terkoiz/Freecam/releases) -OR- build from source (instructions below)
-2. Simply drop the folder `Terkoiz-Freecam` into your SPT-AKI `user/mods/` directory.
+2. Simply extract the zip file contents into your root SPT-AKI folder (where EscapeFromTarkov.exe is).
+3. Your `BepInEx/plugins` folder should now contain a `Terkoiz.Freecam.dll` file inside.
 
 ### Known issues
 
 1. Your weapon doesn't turn invisible when you enter freecam mode
 2. When teleporting to camera position, the camera rotation gets copied exactly, potentially causing the player model to tilt
 3. Game version UI element is not hidden when toggling UI
-4. None of the camera settings (speed, senstivity, etc.) are user-configurable
-5. When flying to distant parts of the map in freecam mode, LODs are not triggered (these seem to follow the player)
+4. When flying to distant parts of the map in freecam mode, LODs are not triggered (these seem to follow the player)
 
 ### How to build from source
 
 1. Download/clone this repository
-2. Download/clone the `SPT-AKI/Modules` repository: [link](https://dev.sp-tarkov.com/SPT-AKI/Modules)
-3. Move the contents of the `project` folder over to the SPT-AKI Modules `project` folder
-4. Add the `Terkoiz.Freecam` project to the SPT-AKI Modules solution
-5. Build modules - `Terkoiz.Freecam.dll` should appear under `Build/EscapeFromTarkov_Data/Managed` in the SPT-AKI Modules directory
-6. Copy the .dll into the `mod/Terkoiz-Freecam` folder and rename to `module.dll`
-7. That's it, you have a working release of this mod! Follow the `How to install` instructions on how to get the mod into your game
+2. Re-import dependencies. I recommend you do this from the SPT-AKI/Modules project's `Shared/Managed` folder, if you have the Modules project fully setup.
+3. Rebuild the project in the Release configuration.
+4. Grab the `Terkoiz.Freecam.dll` file from the `bin/Release` folder and use it wherever. Refer to the "How to install" section if you need help here.

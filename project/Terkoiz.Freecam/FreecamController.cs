@@ -13,30 +13,24 @@ namespace Terkoiz.Freecam
         private BattleUIScreen playerUi;
         private bool uiHidden;
 
-        // TODO:
-        // Menu for adjusting settings
-        // Config file for default settings
-        // Configurable keybinds
-
         // TODO MAYBE:
         // Hide player weapon
         // Hide version number UI element
         // FreeCam controller support (camera could be smoother with an analog stick, apparently)
-        // Adjusting speed/sensitivity without a menu (Ctrl+ScrollWheel for example)
 
         public void Update()
         {
-            if (Input.GetKeyDown(KeyCode.KeypadMultiply))
+            if (FreecamPlugin.ToggleUi.Value.IsDown())
             {
                 ToggleUi();
             }
 
-            if (Input.GetKeyDown(KeyCode.KeypadPlus))
+            if (FreecamPlugin.ToggleFreecamMode.Value.IsDown())
             {
                 ToggleCamera();
             }
 
-            if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            if (FreecamPlugin.TeleportToCamera.Value.IsDown())
             {
                 MovePlayerToCamera();
             }

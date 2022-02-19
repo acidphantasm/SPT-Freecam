@@ -11,31 +11,6 @@ namespace Terkoiz.Freecam
     /// </summary>
     public class Freecam : MonoBehaviour
     {
-        /// <summary>
-        /// Normal speed of camera movement.
-        /// </summary>
-        public float MovementSpeed = 10f;
-
-        /// <summary>
-        /// Speed of camera movement when shift is held down.
-        /// </summary>
-        public float FastMovementSpeed = 100f;
-
-        /// <summary>
-        /// Sensitivity for free look.
-        /// </summary>
-        public float FreeLookSensitivity = 3f;
-
-        /// <summary>
-        /// Amount to zoom the camera when using the mouse wheel.
-        /// </summary>
-        public float ZoomSensitivity = 10f;
-
-        /// <summary>
-        /// Amount to zoom the camera when using the mouse wheel (fast mode).
-        /// </summary>
-        public float FastZoomSensitivity = 50f;
-
         public bool IsActive = false;
 
         void Update()
@@ -44,9 +19,9 @@ namespace Terkoiz.Freecam
             {
                 return;
             }
-
+            
             var fastMode = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-            var movementSpeed = fastMode ? FastMovementSpeed : MovementSpeed;
+            var movementSpeed = fastMode ? FreecamPlugin.CameraFastMoveSpeed.Value : FreecamPlugin.CameraMoveSpeed.Value;
 
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
@@ -88,14 +63,14 @@ namespace Terkoiz.Freecam
                 transform.position += (-Vector3.up * movementSpeed * Time.deltaTime);
             }
 
-            float newRotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * FreeLookSensitivity;
-            float newRotationY = transform.localEulerAngles.x - Input.GetAxis("Mouse Y") * FreeLookSensitivity;
+            float newRotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * FreecamPlugin.CameraLookSensitivity.Value;
+            float newRotationY = transform.localEulerAngles.x - Input.GetAxis("Mouse Y") * FreecamPlugin.CameraLookSensitivity.Value;
             transform.localEulerAngles = new Vector3(newRotationY, newRotationX, 0f);
 
             float axis = Input.GetAxis("Mouse ScrollWheel");
             if (axis != 0)
             {
-                var zoomSensitivity = fastMode ? FastZoomSensitivity : ZoomSensitivity;
+                var zoomSensitivity = fastMode ? FreecamPlugin.CameraFastZoomSpeed.Value : FreecamPlugin.CameraZoomSpeed.Value;
                 transform.position += transform.forward * axis * zoomSensitivity;
             }
         }
