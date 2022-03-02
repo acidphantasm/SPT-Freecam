@@ -25,8 +25,6 @@ namespace Terkoiz.Freecam
 
         private void Awake()
         {
-            Logger.LogError("Loading Freecam...");
-
             InitConfiguration();
 
             HookObject = new GameObject();
