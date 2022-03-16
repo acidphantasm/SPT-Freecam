@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Terkoiz.Freecam
 {
-    [BepInPlugin("com.terkoiz.freecam", "Terkoiz.Freecam", "1.1.0")]
+    [BepInPlugin("com.terkoiz.freecam", "Terkoiz.Freecam", "1.1.1")]
     public class FreecamPlugin : BaseUnityPlugin
     {
         private static GameObject HookObject;
