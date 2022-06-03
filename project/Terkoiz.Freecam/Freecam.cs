@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 
 namespace Terkoiz.Freecam
 {
@@ -13,7 +14,8 @@ namespace Terkoiz.Freecam
     {
         public bool IsActive = false;
 
-        void Update()
+        [UsedImplicitly]
+        public void Update()
         {
             if (!IsActive)
             {
@@ -43,35 +45,41 @@ namespace Terkoiz.Freecam
                 transform.position += (-transform.forward * movementSpeed * Time.deltaTime);
             }
 
-            if (Input.GetKey(KeyCode.Q))
+            if (FreecamPlugin.CameraHeightMovement.Value)
             {
-                transform.position += (transform.up * movementSpeed * Time.deltaTime);
-            }
+                if (Input.GetKey(KeyCode.Q))
+                {
+                    transform.position += (transform.up * movementSpeed * Time.deltaTime);
+                }
 
-            if (Input.GetKey(KeyCode.E))
-            {
-                transform.position += (-transform.up * movementSpeed * Time.deltaTime);
-            }
+                if (Input.GetKey(KeyCode.E))
+                {
+                    transform.position += (-transform.up * movementSpeed * Time.deltaTime);
+                }
 
-            if (Input.GetKey(KeyCode.R) || Input.GetKey(KeyCode.PageUp))
-            {
-                transform.position += (Vector3.up * movementSpeed * Time.deltaTime);
-            }
+                if (Input.GetKey(KeyCode.R) || Input.GetKey(KeyCode.PageUp))
+                {
+                    transform.position += (Vector3.up * movementSpeed * Time.deltaTime);
+                }
 
-            if (Input.GetKey(KeyCode.F) || Input.GetKey(KeyCode.PageDown))
-            {
-                transform.position += (-Vector3.up * movementSpeed * Time.deltaTime);
+                if (Input.GetKey(KeyCode.F) || Input.GetKey(KeyCode.PageDown))
+                {
+                    transform.position += (-Vector3.up * movementSpeed * Time.deltaTime);
+                }
             }
 
             float newRotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * FreecamPlugin.CameraLookSensitivity.Value;
             float newRotationY = transform.localEulerAngles.x - Input.GetAxis("Mouse Y") * FreecamPlugin.CameraLookSensitivity.Value;
             transform.localEulerAngles = new Vector3(newRotationY, newRotationX, 0f);
 
-            float axis = Input.GetAxis("Mouse ScrollWheel");
-            if (axis != 0)
+            if (FreecamPlugin.CameraMousewheelZoom.Value)
             {
-                var zoomSensitivity = fastMode ? FreecamPlugin.CameraFastZoomSpeed.Value : FreecamPlugin.CameraZoomSpeed.Value;
-                transform.position += transform.forward * axis * zoomSensitivity;
+                float axis = Input.GetAxis("Mouse ScrollWheel");
+                if (axis != 0)
+                {
+                    var zoomSensitivity = fastMode ? FreecamPlugin.CameraFastZoomSpeed.Value : FreecamPlugin.CameraZoomSpeed.Value;
+                    transform.position += transform.forward * axis * zoomSensitivity;
+                }
             }
         }
     }

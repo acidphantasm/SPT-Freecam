@@ -1,12 +1,16 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
+using BepInEx.Logging;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Terkoiz.Freecam
 {
-    [BepInPlugin("com.terkoiz.freecam", "Terkoiz.Freecam", "1.1.1")]
+    [BepInPlugin("com.terkoiz.freecam", "Terkoiz.Freecam", "1.2.0")]
     public class FreecamPlugin : BaseUnityPlugin
     {
+        internal new static ManualLogSource Logger { get; private set; }
+
         private static GameObject HookObject;
 
         // Keyboard shortcut config entries
@@ -23,13 +27,23 @@ namespace Terkoiz.Freecam
         internal static ConfigEntry<float> CameraZoomSpeed;
         internal static ConfigEntry<float> CameraFastZoomSpeed;
 
-        private void Awake()
+        private const string TogglesSectionName = "Toggles";
+        internal static ConfigEntry<bool> CameraHeightMovement;
+        internal static ConfigEntry<bool> CameraMousewheelZoom;
+        internal static ConfigEntry<bool> CameraRememberLastPosition;
+
+        // TODO: Hook into camera OnDestroy to run the OnDestroy from FreecamController
+
+        [UsedImplicitly]
+        internal void Start()
         {
+            Logger = base.Logger;
+
             InitConfiguration();
 
             HookObject = new GameObject();
             HookObject.AddComponent<FreecamController>();
-            Object.DontDestroyOnLoad(HookObject);
+            DontDestroyOnLoad(HookObject);
         }
 
         private void InitConfiguration()
@@ -91,6 +105,25 @@ namespace Terkoiz.Freecam
                 new ConfigDescription(
                     "Amount to zoom the camera when using the mouse wheel while holding Shift",
                     new AcceptableValueRange<float>(0.01f, 1000f)));
+
+            CameraHeightMovement = Config.Bind(
+                TogglesSectionName,
+                "CameraHeightMovementKeys",
+                true,
+                "Enables or disables the camera height movement keys, which default to Q, E, R, F." + 
+                " \nUseful to disable if you want to let your character lean in Freecam mode");
+
+            CameraMousewheelZoom = Config.Bind(
+                TogglesSectionName,
+                "CameraMousewheelZoom",
+                true,
+                "Enables or disables camera movement on mousewheel scroll. Just in case you find it annoying.");
+
+            CameraRememberLastPosition = Config.Bind(
+                TogglesSectionName,
+                "CameraRememberLastPosition",
+                false,
+                "If enabled, returning to Freecam mode will put the camera to it's last position which was saved when exiting Freecam mode.");
         }
     }
 }
