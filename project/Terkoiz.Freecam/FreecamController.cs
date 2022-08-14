@@ -89,7 +89,6 @@ namespace Terkoiz.Freecam
                 if (_mainCamera == null)
                 {
                     FreecamPlugin.Logger.LogError("Failed to locate main camera");
-                    PreloaderUI.Instance.Console.AddLog("ERROR: Failed to locate main camera", "FreeCam");
                     return;
                 }
             }
@@ -158,7 +157,6 @@ namespace Terkoiz.Freecam
                 if (_playerUi == null)
                 {
                     FreecamPlugin.Logger.LogError("Failed to locate player UI");
-                    PreloaderUI.Instance.Console.AddLog("ERROR: Failed to locate player UI", "FreeCam");
                     return;
                 }
             }
@@ -194,7 +192,6 @@ namespace Terkoiz.Freecam
             else
             {
                 FreecamPlugin.Logger.LogError("Failed to get the PlayerBody field");
-                PreloaderUI.Instance.Console.AddLog("ERROR: Failed to get the PlayerBody field", "FreeCam");
             }
 
             // Detour the Player.Move method into an empty one, preventing the character from moving during Freecam mode
