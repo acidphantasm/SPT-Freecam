@@ -1,23 +1,22 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
-using JetBrains.Annotations;
 using UnityEngine;
+using KeyboardShortcut = BepInEx.Configuration.KeyboardShortcut;
 
 namespace Terkoiz.Freecam
 {
-    [BepInPlugin("com.terkoiz.freecam", "Terkoiz.Freecam", "1.2.0")]
+    [BepInPlugin("com.terkoiz.freecam", "Terkoiz.Freecam", "1.3.0")]
     public class FreecamPlugin : BaseUnityPlugin
     {
         internal new static ManualLogSource Logger { get; private set; }
-
-        private static GameObject HookObject;
 
         // Keyboard shortcut config entries
         private const string KeybindSectionName = "Keybinds";
         internal static ConfigEntry<KeyboardShortcut> ToggleFreecamMode;
         internal static ConfigEntry<KeyboardShortcut> TeleportToCamera;
         internal static ConfigEntry<KeyboardShortcut> ToggleUi;
+
 
         // Camera settings config entries
         private const string CameraSettingsSectionName = "CameraSettings";
@@ -31,19 +30,14 @@ namespace Terkoiz.Freecam
         internal static ConfigEntry<bool> CameraHeightMovement;
         internal static ConfigEntry<bool> CameraMousewheelZoom;
         internal static ConfigEntry<bool> CameraRememberLastPosition;
-
-        // TODO: Hook into camera OnDestroy to run the OnDestroy from FreecamController
-
-        [UsedImplicitly]
+        public static ConfigEntry<bool> FallDamageToggle;
+        
         internal void Start()
         {
+            new FreecamPatch().Enable();
+            
             Logger = base.Logger;
-
             InitConfiguration();
-
-            HookObject = new GameObject();
-            HookObject.AddComponent<FreecamController>();
-            DontDestroyOnLoad(HookObject);
         }
 
         private void InitConfiguration()
@@ -124,6 +118,12 @@ namespace Terkoiz.Freecam
                 "CameraRememberLastPosition",
                 false,
                 "If enabled, returning to Freecam mode will put the camera to it's last position which was saved when exiting Freecam mode.");
+
+            FallDamageToggle = Config.Bind(
+                TogglesSectionName,
+                "FallHeightToggle",
+                true,
+                "True disables fall damage, False doesn't simplez");
         }
     }
 }
