@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Terkoiz.Freecam
@@ -13,6 +14,7 @@ namespace Terkoiz.Freecam
     {
         public bool IsActive = false;
         
+        [UsedImplicitly]
         public void Update()
         {
             if (!IsActive)
@@ -81,6 +83,7 @@ namespace Terkoiz.Freecam
             }
         }
 
+        [UsedImplicitly]
         private void OnDestroy()
         {
             Destroy(this);

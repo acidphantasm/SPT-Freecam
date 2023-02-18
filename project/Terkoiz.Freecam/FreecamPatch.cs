@@ -21,7 +21,7 @@ namespace Terkoiz.Freecam
                 return;
 
             // Add FreeCamController to GameWorld GameObject
-            gameworld.GetOrAddComponent<FreecamController>();
+            gameworld.gameObject.AddComponent<FreecamController>();
         }
     }
 }

@@ -7,38 +7,46 @@
 
     <ItemGroup>
       <Reference Include="0Harmony">
-        <HintPath>..\..\Shared\0Harmony.dll</HintPath>
+        <HintPath>..\Shared\0Harmony.dll</HintPath>
       </Reference>
       <Reference Include="Aki.Reflection">
-        <HintPath>..\..\Shared\Aki.Reflection.dll</HintPath>
+        <HintPath>..\Shared\Aki.Reflection.dll</HintPath>
       </Reference>
       <Reference Include="Assembly-CSharp">
-        <HintPath>..\..\Shared\Assembly-CSharp.dll</HintPath>
+        <HintPath>..\Shared\Assembly-CSharp.dll</HintPath>
       </Reference>
       <Reference Include="BepInEx">
-        <HintPath>..\..\Shared\BepInEx.dll</HintPath>
+        <HintPath>..\Shared\BepInEx.dll</HintPath>
       </Reference>
       <Reference Include="Comfort">
-        <HintPath>..\..\Shared\Comfort.dll</HintPath>
+        <HintPath>..\Shared\Comfort.dll</HintPath>
       </Reference>
       <Reference Include="ConfigurationManager">
-        <HintPath>..\..\Shared\ConfigurationManager.dll</HintPath>
+        <HintPath>..\Shared\ConfigurationManager.dll</HintPath>
       </Reference>
       <Reference Include="ItemComponent.Types">
-        <HintPath>..\..\Shared\ItemComponent.Types.dll</HintPath>
+        <HintPath>..\Shared\ItemComponent.Types.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine">
-        <HintPath>..\..\Shared\UnityEngine.dll</HintPath>
+        <HintPath>..\Shared\UnityEngine.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.CoreModule">
-        <HintPath>..\..\Shared\UnityEngine.CoreModule.dll</HintPath>
+        <HintPath>..\Shared\UnityEngine.CoreModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.InputLegacyModule">
-        <HintPath>..\..\Shared\UnityEngine.InputLegacyModule.dll</HintPath>
+        <HintPath>..\Shared\UnityEngine.InputLegacyModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UIModule">
-        <HintPath>..\..\Shared\UnityEngine.UIModule.dll</HintPath>
+        <HintPath>..\Shared\UnityEngine.UIModule.dll</HintPath>
       </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="Freecam.cs" />
+        <Compile Include="FreecamController.cs" />
+        <Compile Include="FreecamPlugin.cs" />
+        <Compile Include="FreecamPatch.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
 
 </Project>

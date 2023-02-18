@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
+using JetBrains.Annotations;
 using UnityEngine;
 using KeyboardShortcut = BepInEx.Configuration.KeyboardShortcut;
 
@@ -32,6 +33,7 @@ namespace Terkoiz.Freecam
         internal static ConfigEntry<bool> CameraRememberLastPosition;
         public static ConfigEntry<bool> FallDamageToggle;
         
+        [UsedImplicitly]
         internal void Start()
         {
             new FreecamPatch().Enable();
@@ -123,7 +125,7 @@ namespace Terkoiz.Freecam
                 TogglesSectionName,
                 "FallHeightToggle",
                 true,
-                "True disables fall damage, False doesn't simplez");
+                "If enabled, will disable all fall damage for the player.");
         }
     }
 }

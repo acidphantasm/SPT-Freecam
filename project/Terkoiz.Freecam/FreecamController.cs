@@ -3,6 +3,7 @@ using EFT;
 using EFT.CameraControl;
 using EFT.UI;
 using HarmonyLib;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Terkoiz.Freecam
@@ -26,6 +27,7 @@ namespace Terkoiz.Freecam
         // Button to toggle between camera and player movement
         // Independent FoV setting for Freecam mode (_mainCamera.GetComponent<Camera>().fieldOfView = ...)
         
+        [UsedImplicitly]
         public void Start()
         {
             // Find Main Camera
@@ -44,6 +46,7 @@ namespace Terkoiz.Freecam
                 FreecamPlugin.Logger.LogError("Failed to locate GamePlayerOwner");
         }
         
+        [UsedImplicitly]
         public void Update()
         {
             if (FreecamPlugin.ToggleUi.Value.IsDown())
@@ -227,6 +230,7 @@ namespace Terkoiz.Freecam
             return gameWorld.MainPlayer;
         }
 
+        [UsedImplicitly]
         private void OnDestroy()
         {
             // Destroy FreeCamScript before FreeCamController if exists
