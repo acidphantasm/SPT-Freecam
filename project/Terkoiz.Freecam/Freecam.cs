@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Terkoiz.Freecam
@@ -13,7 +13,7 @@ namespace Terkoiz.Freecam
     public class Freecam : MonoBehaviour
     {
         public bool IsActive = false;
-
+        
         [UsedImplicitly]
         public void Update()
         {
@@ -27,44 +27,44 @@ namespace Terkoiz.Freecam
 
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
-                transform.position += (-transform.right * movementSpeed * Time.deltaTime);
+                transform.position += (-transform.right * (movementSpeed * Time.deltaTime));
             }
 
             if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
-                transform.position += (transform.right * movementSpeed * Time.deltaTime);
+                transform.position += (transform.right * (movementSpeed * Time.deltaTime));
             }
 
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
-                transform.position += (transform.forward * movementSpeed * Time.deltaTime);
+                transform.position += (transform.forward * (movementSpeed * Time.deltaTime));
             }
 
             if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
             {
-                transform.position += (-transform.forward * movementSpeed * Time.deltaTime);
+                transform.position += (-transform.forward * (movementSpeed * Time.deltaTime));
             }
 
             if (FreecamPlugin.CameraHeightMovement.Value)
             {
                 if (Input.GetKey(KeyCode.Q))
                 {
-                    transform.position += (transform.up * movementSpeed * Time.deltaTime);
+                    transform.position += (transform.up * (movementSpeed * Time.deltaTime));
                 }
 
                 if (Input.GetKey(KeyCode.E))
                 {
-                    transform.position += (-transform.up * movementSpeed * Time.deltaTime);
+                    transform.position += (-transform.up * (movementSpeed * Time.deltaTime));
                 }
 
                 if (Input.GetKey(KeyCode.R) || Input.GetKey(KeyCode.PageUp))
                 {
-                    transform.position += (Vector3.up * movementSpeed * Time.deltaTime);
+                    transform.position += (Vector3.up * (movementSpeed * Time.deltaTime));
                 }
 
                 if (Input.GetKey(KeyCode.F) || Input.GetKey(KeyCode.PageDown))
                 {
-                    transform.position += (-Vector3.up * movementSpeed * Time.deltaTime);
+                    transform.position += (-Vector3.up * (movementSpeed * Time.deltaTime));
                 }
             }
 
@@ -78,9 +78,15 @@ namespace Terkoiz.Freecam
                 if (axis != 0)
                 {
                     var zoomSensitivity = fastMode ? FreecamPlugin.CameraFastZoomSpeed.Value : FreecamPlugin.CameraZoomSpeed.Value;
-                    transform.position += transform.forward * axis * zoomSensitivity;
+                    transform.position += transform.forward * (axis * zoomSensitivity);
                 }
             }
+        }
+
+        [UsedImplicitly]
+        private void OnDestroy()
+        {
+            Destroy(this);
         }
     }
 }

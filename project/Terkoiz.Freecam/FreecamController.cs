@@ -1,11 +1,9 @@
-﻿using System.Reflection;
 using Comfort.Common;
 using EFT;
 using EFT.CameraControl;
 using EFT.UI;
 using HarmonyLib;
 using JetBrains.Annotations;
-using MonoMod.RuntimeDetour;
 using UnityEngine;
 
 namespace Terkoiz.Freecam
@@ -17,11 +15,9 @@ namespace Terkoiz.Freecam
 
         private BattleUIScreen _playerUi;
         private bool _uiHidden;
+        private bool _fallDamageToggle = false;
 
-        private MethodInfo _playerMoveMethod;
-        private MethodInfo _playerRotateMethod;
-        private Detour _moveDetour;
-        private Detour _rotateDetour;
+        private GamePlayerOwner _gamePlayerOwner;
 
         private Vector3? _lastPosition;
         private Quaternion? _lastRotation;
@@ -34,21 +30,22 @@ namespace Terkoiz.Freecam
         [UsedImplicitly]
         public void Start()
         {
-            // We locate and get the MethodInfo for the Move method that we will later detour to prevent the player from moving during Freecam
-            _playerMoveMethod = typeof(Player).GetMethod("Move");
-            if (_playerMoveMethod == null)
-            {
-                FreecamPlugin.Logger.LogError("Failed to locate the Player.Move method!");
-            }            
+            // Find Main Camera
+            _mainCamera = GameObject.Find("FPS Camera");
+            if (_mainCamera == null)
+                FreecamPlugin.Logger.LogError("Failed to locate main camera");
             
-            // Same deal here, but for player rotation
-            _playerRotateMethod = typeof(Player).GetMethod("Rotate");
-            if (_playerRotateMethod == null)
-            {
-                FreecamPlugin.Logger.LogError("Failed to locate the Player.Rotate method!");
-            }
+            // Add Freecam script to main camera in scene
+            _freeCamScript = _mainCamera.AddComponent<Freecam>();
+            if (_freeCamScript == null)
+                FreecamPlugin.Logger.LogError("Failed to add Freecam script to Camera");
+            
+            // Get GamePlayerOwner component
+            _gamePlayerOwner = GetLocalPlayerFromWorld().GetComponentInChildren<GamePlayerOwner>();
+            if (_gamePlayerOwner == null)
+                FreecamPlugin.Logger.LogError("Failed to locate GamePlayerOwner");
         }
-
+        
         [UsedImplicitly]
         public void Update()
         {
@@ -66,6 +63,29 @@ namespace Terkoiz.Freecam
             {
                 MovePlayerToCamera();
             }
+            
+            if (_fallDamageToggle != FreecamPlugin.FallDamageToggle.Value)
+            {
+                _fallDamageToggle = ToggleFallDamage(FreecamPlugin.FallDamageToggle.Value);
+            }
+        }
+
+        private bool ToggleFallDamage(bool config)
+        {
+            var localPlayer = GetLocalPlayerFromWorld();
+            if (localPlayer == null)
+                return false;
+
+            // Set Safe fall height to 99999
+            if (config)
+            {
+                localPlayer.ActiveHealthController.FallSafeHeight = 99999;
+                return true;
+            }
+
+            // Set Safe fall height to 3
+            localPlayer.ActiveHealthController.FallSafeHeight = 3;
+            return false;
         }
 
         /// <summary>
@@ -76,29 +96,7 @@ namespace Terkoiz.Freecam
             // Get our own Player instance. Null means we're not in a raid
             var localPlayer = GetLocalPlayerFromWorld();
             if (localPlayer == null)
-            {
                 return;
-            }
-
-            // If we don't have the main camera object cached, go look for it in the scene
-            if (_mainCamera == null)
-            {
-                // Finding a GameObject by name directly is apparently better than searching for objects of a type.
-                // 'FPS Camera' is our main camera instance - so we just grab that
-                _mainCamera = GameObject.Find("FPS Camera");
-                if (_mainCamera == null)
-                {
-                    FreecamPlugin.Logger.LogError("Failed to locate main camera");
-                    return;
-                }
-            }
-
-            // Create the Freecam script and attach it to the main camera
-            if (_freeCamScript == null)
-            {
-                ClearDetours();
-                _freeCamScript = _mainCamera.AddComponent<Freecam>();
-            }
 
             if (!_freeCamScript.IsActive)
             {
@@ -117,15 +115,7 @@ namespace Terkoiz.Freecam
         {
             var localPlayer = GetLocalPlayerFromWorld();
             if (localPlayer == null)
-            {
                 return;
-            }
-
-            // If we don't have the main camera cached, it means we have yet to enter Freecam mode and there is nowhere to teleport to
-            if (_mainCamera == null)
-            {
-                return;
-            }
 
             // Move the player to the camera's current position and switch to First Person mode
             if (_freeCamScript.IsActive)
@@ -133,6 +123,7 @@ namespace Terkoiz.Freecam
                 // We grab the camera's position, but we subtract a bit off the Y axis, because the players coordinate origin is at the feet
                 var position = new Vector3(_mainCamera.transform.position.x, _mainCamera.transform.position.y - 1.8f, _mainCamera.transform.position.z);
                 localPlayer.gameObject.transform.SetPositionAndRotation(position, Quaternion.Euler(0, _mainCamera.transform.rotation.y, 0));
+                
                 // localPlayer.gameObject.transform.SetPositionAndRotation(position, _mainCamera.transform.rotation);
                 SetPlayerToFirstPersonMode(localPlayer);
             }
@@ -145,9 +136,7 @@ namespace Terkoiz.Freecam
         {
             // Check if we're currently in a raid
             if (GetLocalPlayerFromWorld() == null)
-            {
                 return;
-            }
 
             // If we don't have the UI Component cached, go look for it in the scene
             if (_playerUi == null)
@@ -194,17 +183,8 @@ namespace Terkoiz.Freecam
                 FreecamPlugin.Logger.LogError("Failed to get the PlayerBody field");
             }
 
-            // Detour the Player.Move method into an empty one, preventing the character from moving during Freecam mode
-            if (_playerMoveMethod != null)
-            {
-                _moveDetour = new Detour(_playerMoveMethod, typeof(FreecamController).GetMethod(nameof(DisabledMove)));
-            }
-            
-            // Same deal here, but for player rotation
-            if (_playerRotateMethod != null)
-            {
-                _rotateDetour = new Detour(_playerRotateMethod, typeof(FreecamController).GetMethod(nameof(DisabledRotate)));
-            }
+            // Instead of Detouring, just turn off _gamePlayerOwner which takes the input
+            _gamePlayerOwner.enabled = false;
 
             if (FreecamPlugin.CameraRememberLastPosition.Value && _lastPosition != null && _lastRotation != null)
             {
@@ -228,8 +208,9 @@ namespace Terkoiz.Freecam
                 _lastPosition = _mainCamera.transform.position;
                 _lastRotation = _mainCamera.transform.rotation;
             }
-
-            ClearDetours();
+            
+            // re-enable _gamePlayerOwner
+            _gamePlayerOwner.enabled = true;
 
             localPlayer.PointOfView = EPointOfView.FirstPerson;
         }
@@ -242,56 +223,19 @@ namespace Terkoiz.Freecam
         {
             // If the GameWorld instance is null or has no RegisteredPlayers, it most likely means we're not in a raid
             var gameWorld = Singleton<GameWorld>.Instance;
-            if (gameWorld == null || gameWorld.RegisteredPlayers == null)
-            {
+            if (gameWorld == null || gameWorld.MainPlayer == null)
                 return null;
-            }
 
             // One of the RegisteredPlayers will have the IsYourPlayer flag set, which will be our own Player instance
-            return gameWorld.RegisteredPlayers.Find(p => p.IsYourPlayer);
+            return gameWorld.MainPlayer;
         }
 
         [UsedImplicitly]
-        public void OnDestroy()
+        private void OnDestroy()
         {
-            _freeCamScript.IsActive = false;
-
-            // Making sure no stray Detours are left
-            ClearDetours();
-
-            _lastPosition = null;
-            _lastRotation = null;
-        }
-
-        public void ClearDetours()
-        {
-            if (_moveDetour != null)
-            {
-                _moveDetour.Dispose();
-                _moveDetour = null;
-            }
-
-            if (_rotateDetour != null)
-            {
-                _rotateDetour.Dispose();
-                _rotateDetour = null;
-            }
-        }
-
-        /// <summary>
-        /// An empty method that's used to detour the player Move method, preventing movement during Freecam mode
-        /// </summary>
-        [UsedImplicitly]
-        public static void DisabledMove(Player self, Vector2 direction)
-        {
-        }
-
-        /// <summary>
-        /// An empty method that's used to detour the player Rotate method, preventing rotation during Freecam mode
-        /// </summary>
-        [UsedImplicitly]
-        public static void DisabledRotate(Player self, Vector2 deltaRotation, bool ignoreClamp = false)
-        {
+            // Destroy FreeCamScript before FreeCamController if exists
+            Destroy(_freeCamScript);
+            Destroy(this);
         }
     }
 }
