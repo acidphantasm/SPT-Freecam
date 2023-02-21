@@ -1,44 +1,48 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net472</TargetFramework>
-        <EnableDefaultCompileItems>False</EnableDefaultCompileItems>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <Version>1.3.0</Version>
+    <Authors>Terkoiz, Kobrakon, CWX</Authors>
+    <RepositoryUrl>https://dev.sp-tarkov.com/Terkoiz/Freecam</RepositoryUrl>
+    <PackageLicenseExpression>NCSA</PackageLicenseExpression>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <Reference Include="0Harmony">
-        <HintPath>..\Shared\0Harmony.dll</HintPath>
-      </Reference>
-      <Reference Include="Aki.Reflection">
-        <HintPath>..\Shared\Aki.Reflection.dll</HintPath>
-      </Reference>
-      <Reference Include="Assembly-CSharp">
-        <HintPath>..\Shared\Assembly-CSharp.dll</HintPath>
-      </Reference>
-      <Reference Include="BepInEx">
-        <HintPath>..\Shared\BepInEx.dll</HintPath>
-      </Reference>
-      <Reference Include="Comfort">
-        <HintPath>..\Shared\Comfort.dll</HintPath>
-      </Reference>
-      <Reference Include="ConfigurationManager">
-        <HintPath>..\Shared\ConfigurationManager.dll</HintPath>
-      </Reference>
-      <Reference Include="ItemComponent.Types">
-        <HintPath>..\Shared\ItemComponent.Types.dll</HintPath>
-      </Reference>
-      <Reference Include="UnityEngine">
-        <HintPath>..\Shared\UnityEngine.dll</HintPath>
-      </Reference>
-      <Reference Include="UnityEngine.CoreModule">
-        <HintPath>..\Shared\UnityEngine.CoreModule.dll</HintPath>
-      </Reference>
-      <Reference Include="UnityEngine.InputLegacyModule">
-        <HintPath>..\Shared\UnityEngine.InputLegacyModule.dll</HintPath>
-      </Reference>
-      <Reference Include="UnityEngine.UIModule">
-        <HintPath>..\Shared\UnityEngine.UIModule.dll</HintPath>
-      </Reference>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Core" Version="5.4.21">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Aki.Reflection">
+      <HintPath>..\References\EFT_Managed\Aki.Reflection.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\References\Hollowed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Comfort">
+      <HintPath>..\References\EFT_Managed\Comfort.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Comfort.Unity">
+      <HintPath>..\References\EFT_Managed\Comfort.Unity.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\References\EFT_Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\References\EFT_Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\References\EFT_Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
 
 </Project>

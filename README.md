@@ -29,6 +29,6 @@ Alternatively, you can find the `com.terkoiz.freecam.cfg` file in your `BepInEx/
 ### How to build from source
 
 1. Download/clone this repository
-2. Re-import dependencies. I recommend you do this from the SPT-AKI/Modules project's `Shared/Managed` folder, if you have the Modules project fully setup.
+2. Open your current SPT directory and copy all files from `\EscapeFromTarkov_Data\Managed` into this solution's `\References\EFT_Managed` folder.
 3. Rebuild the project in the Release configuration.
 4. Grab the `Terkoiz.Freecam.dll` file from the `bin/Release` folder and use it wherever. Refer to the "How to install" section if you need help here.
