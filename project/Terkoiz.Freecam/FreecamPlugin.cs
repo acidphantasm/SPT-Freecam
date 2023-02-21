@@ -18,7 +18,6 @@ namespace Terkoiz.Freecam
         internal static ConfigEntry<KeyboardShortcut> TeleportToCamera;
         internal static ConfigEntry<KeyboardShortcut> ToggleUi;
 
-
         // Camera settings config entries
         private const string CameraSettingsSectionName = "CameraSettings";
         internal static ConfigEntry<float> CameraMoveSpeed;
@@ -27,19 +26,20 @@ namespace Terkoiz.Freecam
         internal static ConfigEntry<float> CameraZoomSpeed;
         internal static ConfigEntry<float> CameraFastZoomSpeed;
 
+        // General toggles
         private const string TogglesSectionName = "Toggles";
         internal static ConfigEntry<bool> CameraHeightMovement;
         internal static ConfigEntry<bool> CameraMousewheelZoom;
         internal static ConfigEntry<bool> CameraRememberLastPosition;
-        public static ConfigEntry<bool> FallDamageToggle;
+        internal static ConfigEntry<bool> DisableFallDamage;
         
         [UsedImplicitly]
         internal void Start()
         {
-            new FreecamPatch().Enable();
-            
             Logger = base.Logger;
             InitConfiguration();
+
+            new FreecamPatch().Enable();
         }
 
         private void InitConfiguration()
@@ -113,7 +113,7 @@ namespace Terkoiz.Freecam
                 TogglesSectionName,
                 "CameraMousewheelZoom",
                 true,
-                "Enables or disables camera movement on mousewheel scroll. Just in case you find it annoying.");
+                "Enables or disables camera movement on mousewheel scroll. Just in case you find it annoying and want that disabled.");
 
             CameraRememberLastPosition = Config.Bind(
                 TogglesSectionName,
@@ -121,11 +121,11 @@ namespace Terkoiz.Freecam
                 false,
                 "If enabled, returning to Freecam mode will put the camera to it's last position which was saved when exiting Freecam mode.");
 
-            FallDamageToggle = Config.Bind(
+            DisableFallDamage = Config.Bind(
                 TogglesSectionName,
-                "FallHeightToggle",
+                "DisableFallDamage",
                 true,
-                "If enabled, will disable all fall damage for the player.");
+                "If enabled, will prevent fall damage for the player. Highly recommended to leave this enabled if using TeleportToCamera.");
         }
     }
 }

@@ -64,9 +64,9 @@ namespace Terkoiz.Freecam
                 MovePlayerToCamera();
             }
             
-            if (_fallDamageToggle != FreecamPlugin.FallDamageToggle.Value)
+            if (_fallDamageToggle != FreecamPlugin.DisableFallDamage.Value)
             {
-                _fallDamageToggle = ToggleFallDamage(FreecamPlugin.FallDamageToggle.Value);
+                _fallDamageToggle = ToggleFallDamage(FreecamPlugin.DisableFallDamage.Value);
             }
         }
 
