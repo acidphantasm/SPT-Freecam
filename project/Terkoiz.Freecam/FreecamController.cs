@@ -15,7 +15,6 @@ namespace Terkoiz.Freecam
 
         private BattleUIScreen _playerUi;
         private bool _uiHidden;
-        private bool _fallDamageToggle = false;
 
         private GamePlayerOwner _gamePlayerOwner;
 
@@ -33,17 +32,24 @@ namespace Terkoiz.Freecam
             // Find Main Camera
             _mainCamera = GameObject.Find("FPS Camera");
             if (_mainCamera == null)
+            {
                 FreecamPlugin.Logger.LogError("Failed to locate main camera");
-            
+                return;
+            }
+
             // Add Freecam script to main camera in scene
             _freeCamScript = _mainCamera.AddComponent<Freecam>();
             if (_freeCamScript == null)
+            {
                 FreecamPlugin.Logger.LogError("Failed to add Freecam script to Camera");
-            
+            }
+
             // Get GamePlayerOwner component
             _gamePlayerOwner = GetLocalPlayerFromWorld().GetComponentInChildren<GamePlayerOwner>();
             if (_gamePlayerOwner == null)
+            {
                 FreecamPlugin.Logger.LogError("Failed to locate GamePlayerOwner");
+            }
         }
         
         [UsedImplicitly]
@@ -63,29 +69,6 @@ namespace Terkoiz.Freecam
             {
                 MovePlayerToCamera();
             }
-            
-            if (_fallDamageToggle != FreecamPlugin.DisableFallDamage.Value)
-            {
-                _fallDamageToggle = ToggleFallDamage(FreecamPlugin.DisableFallDamage.Value);
-            }
-        }
-
-        private bool ToggleFallDamage(bool config)
-        {
-            var localPlayer = GetLocalPlayerFromWorld();
-            if (localPlayer == null)
-                return false;
-
-            // Set Safe fall height to 99999
-            if (config)
-            {
-                localPlayer.ActiveHealthController.FallSafeHeight = 99999;
-                return true;
-            }
-
-            // Set Safe fall height to 3
-            localPlayer.ActiveHealthController.FallSafeHeight = 3;
-            return false;
         }
 
         /// <summary>
@@ -231,7 +214,7 @@ namespace Terkoiz.Freecam
         }
 
         [UsedImplicitly]
-        private void OnDestroy()
+        public void OnDestroy()
         {
             // Destroy FreeCamScript before FreeCamController if exists
             Destroy(_freeCamScript);

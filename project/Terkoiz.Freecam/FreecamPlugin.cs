@@ -7,7 +7,7 @@ using KeyboardShortcut = BepInEx.Configuration.KeyboardShortcut;
 
 namespace Terkoiz.Freecam
 {
-    [BepInPlugin("com.terkoiz.freecam", "Terkoiz.Freecam", "1.3.0")]
+    [BepInPlugin("com.terkoiz.freecam", "Terkoiz.Freecam", "1.3.1")]
     public class FreecamPlugin : BaseUnityPlugin
     {
         internal new static ManualLogSource Logger { get; private set; }
@@ -31,8 +31,7 @@ namespace Terkoiz.Freecam
         internal static ConfigEntry<bool> CameraHeightMovement;
         internal static ConfigEntry<bool> CameraMousewheelZoom;
         internal static ConfigEntry<bool> CameraRememberLastPosition;
-        internal static ConfigEntry<bool> DisableFallDamage;
-        
+
         [UsedImplicitly]
         internal void Start()
         {
@@ -120,12 +119,6 @@ namespace Terkoiz.Freecam
                 "CameraRememberLastPosition",
                 false,
                 "If enabled, returning to Freecam mode will put the camera to it's last position which was saved when exiting Freecam mode.");
-
-            DisableFallDamage = Config.Bind(
-                TogglesSectionName,
-                "DisableFallDamage",
-                true,
-                "If enabled, will prevent fall damage for the player. Highly recommended to leave this enabled if using TeleportToCamera.");
         }
     }
 }
