@@ -2,7 +2,7 @@
 project/References/EFT_Managed/*
 
 # Allow these files, despite the rules above
-project/References/EFT_Managed/.keep
+!project/References/EFT_Managed/.keep
 
 # ---> VisualStudio
 ## Ignore Visual Studio temporary files, build results, and
