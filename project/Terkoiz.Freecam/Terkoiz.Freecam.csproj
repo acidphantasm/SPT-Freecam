@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <Version>1.3.2</Version>
+    <Version>1.4.0</Version>
     <Authors>Terkoiz, Kobrakon, CWX</Authors>
     <RepositoryUrl>https://dev.sp-tarkov.com/Terkoiz/Freecam</RepositoryUrl>
     <PackageLicenseExpression>NCSA</PackageLicenseExpression>
@@ -20,7 +20,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\References\Hollowed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\References\EFT_Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Comfort">

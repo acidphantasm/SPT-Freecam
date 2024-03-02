@@ -21,11 +21,6 @@ namespace Terkoiz.Freecam
         private Vector3? _lastPosition;
         private Quaternion? _lastRotation;
 
-        // TODO:
-        // Hide version number UI element
-        // Button to toggle between camera and player movement
-        // Independent FoV setting for Freecam mode (_mainCamera.GetComponent<Camera>().fieldOfView = ...)
-        
         [UsedImplicitly]
         public void Start()
         {
@@ -103,6 +98,9 @@ namespace Terkoiz.Freecam
             // Move the player to the camera's current position and switch to First Person mode
             if (_freeCamScript.IsActive)
             {
+                // Tell the fall damage patch that we just teleported. Used for the "smart" fall damage prevention feature
+                FallDamagePatch.HasTeleported = true;
+
                 // We grab the camera's position, but we subtract a bit off the Y axis, because the players coordinate origin is at the feet
                 var position = new Vector3(_mainCamera.transform.position.x, _mainCamera.transform.position.y - 1.8f, _mainCamera.transform.position.z);
                 localPlayer.gameObject.transform.SetPositionAndRotation(position, Quaternion.Euler(0, _mainCamera.transform.rotation.y, 0));
