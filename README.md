@@ -1,6 +1,6 @@
 # Freecam
 
-An SPT-AKI module mod that allows you to detach the camera and fly around freely in Escape From Tarkov.
+A BepInEx plugin for SPT-AKI that allows you to detach the camera and fly around freely in Escape From Tarkov.
 
 ### Controls
 
@@ -21,10 +21,9 @@ Alternatively, you can find the `com.terkoiz.freecam.cfg` file in your `BepInEx/
 
 ### Known issues
 
-1. Your weapon doesn't turn invisible when you enter freecam mode
-2. When teleporting to camera position, the camera rotation gets copied exactly, potentially causing the player model to tilt
-3. Game version UI element is not hidden when toggling UI
-4. When flying to distant parts of the map in freecam mode, LODs are not triggered (these seem to follow the player)
+1. When teleporting to camera position, the camera rotation gets copied exactly, potentially causing the player model to tilt
+2. Game version UI element is not hidden when toggling UI
+3. When flying to distant parts of the map in freecam mode, LODs are not triggered (these seem to follow the player)
 
 ### How to build from source
 
