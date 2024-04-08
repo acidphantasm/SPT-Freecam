@@ -13,7 +13,7 @@ namespace Terkoiz.Freecam
         private GameObject _mainCamera;
         private Freecam _freeCamScript;
 
-        private BattleUIScreen _playerUi;
+        private EftBattleUIScreen _playerUi;
         private bool _uiHidden;
 
         private GamePlayerOwner _gamePlayerOwner;
@@ -24,11 +24,19 @@ namespace Terkoiz.Freecam
         [UsedImplicitly]
         public void Start()
         {
-            // Find Main Camera
-            _mainCamera = GameObject.Find("FPS Camera");
+            // Get Main Camera
+            _mainCamera = GetLocalPlayerFromWorld().GetComponent<PlayerCameraController>().Camera.gameObject;
             if (_mainCamera == null)
             {
                 FreecamPlugin.Logger.LogError("Failed to locate main camera");
+                return;
+            }
+
+            // Get Player UI
+            _playerUi = Singleton<CommonUI>.Instance.EftBattleUIScreen;
+            if (_playerUi == null)
+            {
+                FreecamPlugin.Logger.LogError("Failed to locate player UI");
                 return;
             }
 
@@ -123,18 +131,6 @@ namespace Terkoiz.Freecam
             // Check if we're currently in a raid
             if (GetLocalPlayerFromWorld() == null)
                 return;
-
-            // If we don't have the UI Component cached, go look for it in the scene
-            if (_playerUi == null)
-            {
-                _playerUi = GameObject.Find("BattleUIScreen").GetComponent<BattleUIScreen>();
-
-                if (_playerUi == null)
-                {
-                    FreecamPlugin.Logger.LogError("Failed to locate player UI");
-                    return;
-                }
-            }
 
             _playerUi.gameObject.SetActive(_uiHidden);
             _uiHidden = !_uiHidden;
@@ -240,7 +236,6 @@ namespace Terkoiz.Freecam
         {
             // Destroy FreeCamScript before FreeCamController if exists
             Destroy(_freeCamScript);
-            Destroy(this);
         }
     }
 }
