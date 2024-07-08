@@ -1,5 +1,5 @@
 using System.Reflection;
-using Aki.Reflection.Patching;
+using SPT.Reflection.Patching;
 using Comfort.Common;
 using EFT;
 using HarmonyLib;
@@ -10,19 +10,19 @@ namespace Terkoiz.Freecam
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(GameWorld), "OnGameStarted");
+            return AccessTools.Method(typeof(GameWorld), nameof(GameWorld.OnGameStarted));
         }
 
         [PatchPostfix]
         public static void PatchPostFix()
         {
-            var gameworld = Singleton<GameWorld>.Instance;
+            var gameWorld = Singleton<GameWorld>.Instance;
             
-            if (gameworld == null)
+            if (gameWorld == null)
                 return;
 
-            // Add FreeCamController to GameWorld GameObject
-            gameworld.gameObject.AddComponent<FreecamController>();
+            // Add FreecamController to GameWorld GameObject
+            gameWorld.gameObject.AddComponent<FreecamController>();
         }
     }
 }

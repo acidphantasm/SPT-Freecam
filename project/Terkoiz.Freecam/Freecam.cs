@@ -6,7 +6,7 @@ namespace Terkoiz.Freecam
     /// <summary>
     /// A simple free camera to be added to a Unity game object.
     /// 
-    /// Full credit to Ashley Davis on GitHub for the inital code:
+    /// Full credit to Ashley Davis on GitHub for the initial code:
     /// https://gist.github.com/ashleydavis/f025c03a9221bc840a2b
     /// 
     /// </summary>

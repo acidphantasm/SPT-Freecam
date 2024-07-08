@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Aki.Reflection.Patching;
+using SPT.Reflection.Patching;
 using EFT.HealthSystem;
 using HarmonyLib;
 
@@ -11,7 +11,7 @@ namespace Terkoiz.Freecam
         
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(ActiveHealthController), "HandleFall");
+            return AccessTools.Method(typeof(ActiveHealthController), nameof(ActiveHealthController.HandleFall));
         }
 
         [PatchPrefix]
