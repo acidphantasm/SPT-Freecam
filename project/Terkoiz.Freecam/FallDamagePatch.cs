@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using EFT;
 using SPT.Reflection.Patching;
 using EFT.HealthSystem;
 using HarmonyLib;
@@ -15,12 +16,12 @@ namespace Terkoiz.Freecam
         }
 
         [PatchPrefix]
-        public static bool PatchPrefix(ActiveHealthController __instance, float height)
+        public static bool PatchPrefix(ActiveHealthController __instance, float height, Player ___Player)
         {
             // WARNING: The 'HandleFall' method gets called every frame for every player and AI in a raid. Be very careful with logging or expensive operations in this prefix patch!
 
-            // Check if it's our own player, or if a Player property even exists
-            if (__instance.Player?.IsAI ?? true)
+            // Check if it's our own player
+            if (___Player.IsAI)
             {
                 return true; // Run original method
             }

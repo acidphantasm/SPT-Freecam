@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
-    <Version>1.4.4</Version>
+    <Version>1.4.5</Version>
     <Authors>Terkoiz, Kobrakon, CWX</Authors>
-    <RepositoryUrl>https://dev.sp-tarkov.com/Terkoiz/Freecam</RepositoryUrl>
+    <RepositoryUrl>https://github.com/TerkoizLT/SPT-Freecam</RepositoryUrl>
     <PackageLicenseExpression>NCSA</PackageLicenseExpression>
   </PropertyGroup>
 
