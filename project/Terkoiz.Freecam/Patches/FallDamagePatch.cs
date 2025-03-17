@@ -4,12 +4,12 @@ using SPT.Reflection.Patching;
 using EFT.HealthSystem;
 using HarmonyLib;
 
-namespace Terkoiz.Freecam
+namespace Terkoiz.Freecam.Patches
 {
     public class FallDamagePatch : ModulePatch
     {
         internal static bool HasTeleported;
-        
+
         protected override MethodBase GetTargetMethod()
         {
             return AccessTools.Method(typeof(ActiveHealthController), nameof(ActiveHealthController.HandleFall));

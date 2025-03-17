@@ -2,12 +2,13 @@
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using JetBrains.Annotations;
+using Terkoiz.Freecam.Patches;
 using UnityEngine;
 using KeyboardShortcut = BepInEx.Configuration.KeyboardShortcut;
 
 namespace Terkoiz.Freecam
 {
-    [BepInPlugin("com.terkoiz.freecam", "Terkoiz.Freecam", "1.4.5")]
+    [BepInPlugin("com.terkoiz.freecam", "Terkoiz.Freecam", "1.4.6")]
     public class FreecamPlugin : BaseUnityPlugin
     {
         internal new static ManualLogSource Logger { get; private set; }
@@ -38,6 +39,8 @@ namespace Terkoiz.Freecam
         internal static ConfigEntry<bool> CameraMousewheelZoom;
         internal static ConfigEntry<bool> CameraRememberLastPosition;
 
+        public static FreecamController FreecamControllerInstance;
+
         [UsedImplicitly]
         internal void Start()
         {
@@ -46,6 +49,7 @@ namespace Terkoiz.Freecam
 
             new FreecamPatch().Enable();
             new FallDamagePatch().Enable();
+            new ForceSetCameraPositionPatch().Enable();
         }
 
         private void InitConfiguration()

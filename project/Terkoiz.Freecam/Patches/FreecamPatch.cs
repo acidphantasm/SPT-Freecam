@@ -4,7 +4,7 @@ using Comfort.Common;
 using EFT;
 using HarmonyLib;
 
-namespace Terkoiz.Freecam
+namespace Terkoiz.Freecam.Patches
 {
     public class FreecamPatch : ModulePatch
     {
@@ -17,12 +17,12 @@ namespace Terkoiz.Freecam
         public static void PatchPostFix()
         {
             var gameWorld = Singleton<GameWorld>.Instance;
-            
+
             if (gameWorld == null)
                 return;
 
             // Add FreecamController to GameWorld GameObject
-            gameWorld.gameObject.AddComponent<FreecamController>();
+            FreecamPlugin.FreecamControllerInstance = gameWorld.gameObject.AddComponent<FreecamController>();
         }
     }
 }

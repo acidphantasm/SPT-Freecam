@@ -4,6 +4,7 @@ using EFT.CameraControl;
 using EFT.UI;
 using HarmonyLib;
 using JetBrains.Annotations;
+using Terkoiz.Freecam.Patches;
 using UnityEngine;
 
 namespace Terkoiz.Freecam
@@ -20,6 +21,9 @@ namespace Terkoiz.Freecam
 
         private Vector3? _lastPosition;
         private Quaternion? _lastRotation;
+
+        private bool _controlsToggled;
+        public bool IsFreecamActive => _freeCamScript.IsActive || _controlsToggled;
 
         [UsedImplicitly]
         public void Start()
@@ -204,17 +208,17 @@ namespace Terkoiz.Freecam
         {
             if (_freeCamScript.IsActive) 
             {
+                _controlsToggled = true;
                 _freeCamScript.IsActive = false;
                 _gamePlayerOwner.enabled = true;
             }
             else 
             {
+                _controlsToggled = false;
                 _freeCamScript.IsActive = true;
                 _gamePlayerOwner.enabled = false;
             }
-
         }
-
 
         /// <summary>
         /// Gets the current <see cref="Player"/> instance if it's available
