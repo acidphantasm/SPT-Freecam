@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
-    <Version>1.4.6</Version>
+    <Version>1.4.7</Version>
     <Authors>Terkoiz</Authors>
     <RepositoryUrl>https://github.com/TerkoizLT/SPT-Freecam</RepositoryUrl>
     <PackageLicenseExpression>NCSA</PackageLicenseExpression>
