@@ -1,17 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net471</TargetFramework>
-    <Version>1.4.7</Version>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>1.4.8</Version>
     <Authors>Terkoiz</Authors>
     <RepositoryUrl>https://github.com/TerkoizLT/SPT-Freecam</RepositoryUrl>
     <PackageLicenseExpression>NCSA</PackageLicenseExpression>
   </PropertyGroup>
   <PropertyGroup>
-    <TarkovDir Condition=" '$(TarkovDir)' == '' ">D:\SPT 4.0.0 DEV\</TarkovDir>
+    <TarkovDir Condition=" '$(TarkovDir)' == '' ">D:\SPT 4.1 BE\</TarkovDir>
     <TarkovPluginsSPTDir>$(TarkovDir)BepInEx\plugins\spt\</TarkovPluginsSPTDir>
     <TarkovManagedDir>$(TarkovDir)EscapeFromTarkov_Data\Managed\</TarkovManagedDir>
     <TarkovBepInExCoreDir>$(TarkovDir)BepInEx\core\</TarkovBepInExCoreDir>
+    <ZipFile>$(ProjectDir)release\$(ProjectName).7z</ZipFile>
+    <SevenZipExe>"C:\Program Files\7-Zip\7z.exe"</SevenZipExe>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -93,4 +95,42 @@
     </Reference>
   </ItemGroup>
 
+  <!-- Post-Build Actions -->
+  <Target Name="PostBuild" AfterTargets="Build">
+    <PropertyGroup>
+      <ReleaseRoot>$(ProjectDir)release\$(ProjectName)\</ReleaseRoot>
+      <ZipFile>$(ProjectDir)release\$(ProjectName).7z</ZipFile>
+      <SevenZipExe>"C:\Program Files\7-Zip\7z.exe"</SevenZipExe>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <OutputDLL Include="$(TargetPath)" />
+    </ItemGroup>
+
+    <!-- Copy to Tarkov Dir -->
+    <Copy SourceFiles="@(OutputDLL);@(License)"
+          DestinationFolder="$(TarkovDir)BepInEx\plugins\$(ProjectName)\" />
+
+    <Copy SourceFiles="@(ServerComponents)"
+          DestinationFolder="$(TarkovDir)SPT_Runtime\user\mods\$(ProjectName)\%(RecursiveDir)" />
+
+    <!-- Clean staging -->
+    <RemoveDir Directories="$(ReleaseRoot)" />
+
+    <!-- Build release folder structure -->
+    <Copy SourceFiles="@(OutputDLL);@(License)"
+          DestinationFolder="$(ReleaseRoot)BepInEx\plugins\$(ProjectName)\" />
+
+    <Copy SourceFiles="@(ServerComponents)"
+          DestinationFolder="$(ReleaseRoot)SPT_Runtime\user\mods\$(ProjectName)\%(RecursiveDir)" />
+
+    <!-- Ensure release dir exists -->
+    <MakeDir Directories="$(ProjectDir)release" />
+
+    <!-- Delete old archive -->
+    <Delete Files="$(ZipFile)" Condition="Exists('$(ZipFile)')" />
+
+    <!-- Create 7z -->
+    <Exec Command='$(SevenZipExe) a -t7z "$(ZipFile)" "$(ReleaseRoot)*" -mx=5 -m0=lzma2' />
+  </Target>
 </Project>

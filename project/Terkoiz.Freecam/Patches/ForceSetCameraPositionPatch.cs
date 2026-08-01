@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using EFT.CameraControl;
 using HarmonyLib;
 using SPT.Reflection.Patching;
 
@@ -12,7 +13,7 @@ namespace Terkoiz.Freecam.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return AccessTools.Method(typeof(CameraClass), nameof(CameraClass.ForceSetPosition));
+            return AccessTools.Method(typeof(CameraManager), nameof(CameraManager.ForceSetPosition));
         }
 
         [PatchPrefix]
